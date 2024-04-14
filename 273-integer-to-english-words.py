@@ -12,7 +12,7 @@ onesDict = {
     }
 
 teensDict = {
-    1: "Ten",
+    10: "Ten",
     11: "Eleven",
     12: "Twelve",
     13: "Thirteen",
@@ -54,39 +54,14 @@ def makeSections(number: int) -> list:
     return tempList
 
 def finalThreeDigits(sectionString: str) -> str:
-    
-    tempString = ''
+    num1 = num2 = num3 = 0
 
-    num1 = int(sectionString[-3])
-    
-    if not num1 == 0:
-        tempString = tempString + onesDict[num1] + ' Hundred '
-
-    num2 = int(sectionString[-2])
-
-    if not num2 == 0:
-        if not num2 == 1:
-            tempString = tempString + tensDict[num2] + ' '
-        else:
-            tempString = tempString + teensDict[int(str(num2) + str(num3))] + ' '
-            return tempString
-            
-    num3 = int(sectionString[-1])
-    if not num3 == 0:
-        tempString = tempString + onesDict[num3] + ' '
-
-    return(tempString)
-
-
-
-def hundredsSectionToWords(sectionString: str, degree: int) -> str:
-    
     tempString = ''
     if len(sectionString) == 3:
         num1 = int(sectionString[-3])
         
         if not num1 == 0:
-            tempString = tempString + onesDict[num1] + ' Hundred '
+            tempString = tempString + ' ' + onesDict[num1] + ' Hundred'
     
     if len(sectionString) >= 2:
 
@@ -94,52 +69,70 @@ def hundredsSectionToWords(sectionString: str, degree: int) -> str:
 
         if not num2 == 0:
             if not num2 == 1:
-                tempString = tempString + tensDict[num2] + ' '
+                tempString = tempString + ' ' + tensDict[num2]
             else:
-                tempString = tempString + teensDict[int(str(num2) + str(num3))] + ' ' + degreeDict[degree] + ' '
+                tempString = tempString + ' ' + teensDict[int(str(num2) + sectionString[-1])]
                 return tempString
             
     num3 = int(sectionString[-1])
     if not num3 == 0:
-        tempString = tempString + onesDict[num3] + ' '
+        tempString = tempString + ' ' + onesDict[num3]
+    return(tempString)
 
-    tempString = tempString + degreeDict[degree] + ' '
+def hundredsSectionToWords(sectionString: str, degree: int) -> str:
+    num1 = num2 = num3 = 0
+
+    tempString = ''
+    if len(sectionString) == 3:
+        num1 = int(sectionString[-3])
+        
+        if not num1 == 0:
+            tempString = tempString + ' ' + onesDict[num1] + ' Hundred'
+    
+    if len(sectionString) >= 2:
+
+        num2 = int(sectionString[-2])
+
+        if not num2 == 0:
+            if not num2 == 1:
+                tempString = tempString + ' ' + tensDict[num2] 
+            else:
+                tempString = tempString + ' ' + teensDict[int(str(num2) + sectionString[-1])] + ' ' + degreeDict[degree] 
+                return tempString
+            
+    num3 = int(sectionString[-1])
+    if not num3 == 0:
+        tempString = tempString + ' ' + onesDict[num3]
+    if not (num1 == 0 and num2 == 0 and num3 == 0):
+        tempString = tempString + ' ' + degreeDict[degree]
     return(tempString)
     
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        finalString = ""
+        inputInt = num
+        inputString = str(inputInt)
+        firstDigits = inputString[-3:]
+        inputString = inputString[:-3]
 
+        if len(inputString) > 0:
+            sectionList = makeSections(inputString)
+            degree = len(sectionList)
+            for i in reversed(range(degree)):
+                #if len(sectionList[i]) == 3:
+                finalString = finalString + hundredsSectionToWords(sectionList[i], i)
 
-    
-inputInt = 1234567
-inputString = str(inputInt)
+            finalString = finalString + finalThreeDigits(firstDigits)
 
-firstDigits = inputString[-3:]
-print(firstDigits)
+        elif not inputInt == 0:
+            finalString = finalString + finalThreeDigits(firstDigits)
 
-inputString = inputString[:-3]
-print(inputString)
+        else:
+            finalString = finalString + ' ' + onesDict[0]
 
-if len(inputString) > 0:
-    sectionList = makeSections(inputString)
+        finalString = finalString[1:]
+        return(finalString)
 
-    degree = len(sectionList)
-    print(degree)
-
-    print(sectionList)
-
-
-    for i in reversed(range(degree)):
-        #if len(sectionList[i]) == 3:
-        print(hundredsSectionToWords(sectionList[i], i))
-        
-    print(finalThreeDigits(firstDigits))
-
-elif not inputString == '0':
-    print(finalThreeDigits(firstDigits))
-
-else:
-    print(onesDict[0])
-
-
-
-
-
+num = input()
+new = Solution()
+print(new.numberToWords(int(num)))
