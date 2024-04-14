@@ -1,3 +1,16 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def returnTop(self) -> str:
+        if len(self.stack) > 0:
+            return(self.stack[-1])
+        else:
+            return('')
+        
+    def pop(self):
+        self.stack.pop()
+
 def trimString(index: int, string: str) -> str:
     if index < (len(string) - 1):
         string = string[:index] + string[(index + 1):]
@@ -5,18 +18,39 @@ def trimString(index: int, string: str) -> str:
         string = string[:index]
     return(string)
 
-s = '()[]{}'
+s = '()[]{()(())))))}}'
+closing = [')', ']', '}']
 
-stack = []
+bracketStack = Stack()
 removeIndex = []
 
-if len(stack) > 0:
-    print(stack[-1])
-
 for i in range(len(s)):
-    if s[i] == ')':
-        if stack[-1:] == '(':
-            stack.pop()
+    if s[i] in closing:
+        if s[i] == ')':
+            if bracketStack.returnTop() == '(':
+                print(1)
+                bracketStack.pop()
+            else:
+                removeIndex.append(i)
+        elif s[i] == ']':
+            if bracketStack.returnTop() == '[':
+                print(2)
+                bracketStack.pop()
+            else:
+                removeIndex.append(i)
         else:
-            removeIndex.append(i)
+            if bracketStack.returnTop() == '{':
+                print(3)
+                bracketStack.pop()
+            else:
+                removeIndex.append(i)
+    else:
+        bracketStack.stack.append(s[i])
+
+for i in reversed(removeIndex):
+    s = trimString(i, s)
+
+print(s + '\n' + str(bracketStack.stack) + '\n' + str(removeIndex))
+
+
             
