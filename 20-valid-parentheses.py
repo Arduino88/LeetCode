@@ -28,19 +28,16 @@ for i in range(len(s)):
     if s[i] in closing:
         if s[i] == ')':
             if bracketStack.returnTop() == '(':
-                print(1)
                 bracketStack.pop()
             else:
                 removeIndex.append(i)
         elif s[i] == ']':
             if bracketStack.returnTop() == '[':
-                print(2)
                 bracketStack.pop()
             else:
                 removeIndex.append(i)
         else:
             if bracketStack.returnTop() == '{':
-                print(3)
                 bracketStack.pop()
             else:
                 removeIndex.append(i)
@@ -50,7 +47,7 @@ for i in range(len(s)):
 for i in reversed(removeIndex):
     s = trimString(i, s)
 
-print(s + '\n' + str(bracketStack.stack) + '\n' + str(removeIndex))
+print(s + "\n" + str(len(removeIndex)) + " characters removed.")
 
 
             
