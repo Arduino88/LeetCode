@@ -68,7 +68,6 @@ cmap = plt.get_cmap('plasma')
 new_cmap = LinearSegmentedColormap.from_list("NewCmap", [(0, 0, 1), (1, 0, 0), (10, 0, 0)], N=largest_square)
 
 plt.pcolor(df, cmap=cmap)
-plt.legend()
 plt.axis([0, width, width, 0])
 plt.title("Heatmap of DataFrame")
 plt.show()
