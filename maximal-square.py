@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import pandas as pd
-import seaborn as sns
+from matplotlib.colors import LinearSegmentedColormap
 
 #Maximal Square in a matrix algorithm
 
@@ -20,7 +20,11 @@ def biggest_square_at(yard: Matrix, row: int, column: int, output: Matrix):
         return yard.matrix[row][column]
     
     else:
-        return min(output.matrix[row][column-1], output.matrix[row-1][column-1], output.matrix[row-1][column]) + 1
+        max_square = min(output.matrix[row][column-1], output.matrix[row-1][column-1], output.matrix[row-1][column]) + 1
+        if max_square >= row or max_square >= column:
+            return min(row, column)
+        else:
+            return max_square
         
 
 #INPUT
@@ -53,13 +57,18 @@ print('DP:')
 dp.debugPrint()
 
 df = pd.DataFrame(dp.matrix)
-# create matplotlib color chart
 
 print(df)
 
+largest_square = max(max(df[i]) for i in df.columns)
+print('The largest square is: ', largest_square)
 
-# Plot the DataFrame as a heatmap
-plt.figure(figsize=(10, 6))
-plt.pcolor(df, cmap='Blues', edgecolors='white')
+# create matplotlib color chart
+cmap = plt.get_cmap('plasma')
+new_cmap = LinearSegmentedColormap.from_list("NewCmap", [(0, 0, 1), (1, 0, 0), (10, 0, 0)], N=largest_square)
+
+plt.pcolor(df, cmap=cmap)
+plt.legend()
+plt.axis([0, width, width, 0])
 plt.title("Heatmap of DataFrame")
 plt.show()
