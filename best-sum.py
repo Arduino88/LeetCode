@@ -31,4 +31,4 @@ def bestSum(targetSum: int, numbers: list, memo = {}):
     return smallestCombination
 
 
-print(bestSum(3, [2, 5, 10, 25]))
+print(bestSum(100, [2, 5, 10, 25]))
