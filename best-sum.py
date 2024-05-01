@@ -1,4 +1,4 @@
-def howSum(targetSum: int, numbers: list, memo = {}):
+def bestSum(targetSum: int, numbers: list, memo = {}):
     if targetSum == 0:
         print('BASE CASE')
         return []
@@ -10,18 +10,26 @@ def howSum(targetSum: int, numbers: list, memo = {}):
     if targetSum in memo:
         return memo[targetSum]
 
+    shortestCombination = None
+    
     for item in numbers:
-        
+        remainder = 0
         if item <= targetSum:
-            print(item, targetSum, "input:", targetSum - item)
-            how_sum = howSum(targetSum - item, numbers)
-            if how_sum is not None:
-                how_sum.append(item)
-                memo[targetSum] = how_sum
-                return memo[targetSum]
+            remainder = targetSum - item
+            remainderCombination = bestSum(remainder, numbers)
+        
+            print ('RemainderCombination:', remainderCombination, 'Target:', targetSum)
+            remainderCombination.append(item)
+            combination = remainderCombination
+            print (combination)
+            if len(shortestCombination) is 0 or len(combination) < len(shortestCombination):
+                shortestCombination = combination
+            
 
-    memo[targetSum] = None
-    return None
+    memo[targetSum] = shortestCombination
+    return shortestCombination
+        
 
 
-print(howSum(678, [5, 3, 4, 7]))
+
+print('FINAL', bestSum(50, [1, 5, 10, 25]))
