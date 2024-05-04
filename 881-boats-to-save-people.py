@@ -2,55 +2,16 @@ class Solution:
     def numRescueBoats(self, people: list[int], limit: int) -> int:
         boats = 0
         #print(people)
-        people.sort(reverse=True)
-        print(people)
-        comparison = people.copy()
-        
-        
-        """
-        for person in people:
-            if person in comparison:
-                partner = limit - person
-                print(f'Partner: {partner}, Person: {person}')
-                print(comparison)
-                print(f'Person found, removing {person} from {comparison}')
-                tempStore = comparison.pop(comparison.index(person))
-                if partner in comparison:
-                    print(comparison)
-                    print(f'Partner found, {partner} removing 2 from {comparison}')
-                    comparison.pop(comparison.index(partner))
-                    boats += 1
-                else:
-                    print(f'Partner missing, returning {person} to {comparison}')
-                    comparison.insert(0, tempStore)
-                """
-        #people = comparison
-            
-        #print('FIRST ROUND PASSED')
-            
-        for person in people:
-            if person in comparison:
-                partner = limit - person
-                #print(f'Person: {person}, Partner: {partner}')
-                #print(f'Person found, removing {person} from {comparison}')
-                tempStore = comparison.pop(comparison.index(person))
-                tempBoats = boats
-                for otherPerson in reversed(range(partner + 1)):
-                    print(f'otherPerson: {otherPerson}')
-                    if otherPerson in comparison and otherPerson <= partner:
-                        print(f'Partner found, Removing {tempStore} and {otherPerson} from list')
-                        comparison.pop(comparison.index(otherPerson))
-                        boats += 1
-                        break
-
-                if tempBoats == boats:
-                    print(f'Partner missing, returning {person} to comparison')
-                    comparison.insert(0, tempStore)
-                    #print(f'Result: {comparison}')
-
-        boats += len(comparison)
-        
+        people.sort()
+        x = 0
+        left, right = 0, len(people) - 1
+        while left <= right:
+            boats += 1
+            if people[left] + people[right] <= limit:
+                left += 1
+            right -= 1
         return boats
+
 
     
     
