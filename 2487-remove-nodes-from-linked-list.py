@@ -1,3 +1,8 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
 def insertAtEnd(head, data):
     new_node = ListNode(data)
  
@@ -27,7 +32,7 @@ def isValid(node) -> bool:
 #         self.val = val
 #         self.next = next
 class Solution:
-    def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def removeNodes(self, head: ListNode):
         returnHead = ListNode
         returnHead.val = None
         returnHead.next = None
