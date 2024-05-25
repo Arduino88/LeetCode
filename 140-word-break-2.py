@@ -1,7 +1,7 @@
 def dp(s, wordDict):
     if s == '':
-        print('s == empty string, returning None')
-        return None
+        print('s == empty string, returning []')
+        return ['']
 
     #print('wordDict', wordDict)
     possibilities = []
@@ -42,7 +42,7 @@ def dp(s, wordDict):
 
     #print('returning...')
     for possibility in possibilities:
-        print(f'possibility: {possibility} + {s[len(possibility):]}')
+        print(f'now trying {possibility}, with remainder {s[len(possibility):]}, from original word {s}')
         temp = dp(s[len(possibility):], wordDict)
         print(f'temp: {temp}')        
         
@@ -51,7 +51,10 @@ def dp(s, wordDict):
                 print(f'words: {possibility}, {option}')
                 print(f'types: {type(possibility)}, {type(option)}')
 
-                temp[i] = possibility + ' ' + option
+                if option != '':
+                    temp[i] = possibility + ' ' + option
+                else:
+                    temp[i] = possibility
                 print(f'temp[i]: {temp[i]}')
                 returnList.append(temp[i])
 
@@ -76,4 +79,14 @@ newSol = Solution()
 #print(newSol.wordBreak('leetcode', ['leet', 'code']))
 #print(newSol.wordBreak("catsanddog", ["cat","cats","and","sand","dog"]))
 #print(newSol.wordBreak("pineapplepenapple", ["apple","pen","applepen","pine","pineapple"]))
+print('\n--------------------------\n')
+
 print(newSol.wordBreak("aaaaaaa", ["aaaa","aaa"]))
+
+print('\n--------------------------\n')
+
+print(newSol.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"]))
+
+print('\n--------------------------\n')
+
+print(newSol.wordBreak("ccaccc", ['cc', 'ac']))
